@@ -12,6 +12,7 @@ local config = {
     maxWaterAmount = common.staticConfigs.bottleConfig.wooden_bowl.capacity,
     waterFilteredPerHour = 15,
 }
+local lastUpdateTimestamp
 
 function WaterFilter.registerWaterFilter(e)
     common.staticConfigs.bottleList[e.id:lower()] = {
@@ -85,6 +86,11 @@ end
 
 
 event.register("simulate", function(e)
+    if lastUpdateTimestamp and e.timestamp - lastUpdateTimestamp < config.updateInterval then
+        return
+    end
+    lastUpdateTimestamp = e.timestamp
+
     ReferenceController.iterateReferences("waterFilter", function(reference)
         reference.data.lastWaterFilterUpdated = reference.data.lastWaterFilterUpdated or e.timestamp
         local timeSinceLastUpdate = e.timestamp - reference.data.lastWaterFilterUpdated
@@ -231,6 +237,8 @@ WaterFilter.buttons = {
         callback = WaterFilter.collectWaterCallback
     }
 }
+--[[]]
+--[[]]
 --[[
     Bushcrafted water filters are controlled through Crafting Framework.
     This handles water filters added via ESP (e.g. as a resource from OAAB).
