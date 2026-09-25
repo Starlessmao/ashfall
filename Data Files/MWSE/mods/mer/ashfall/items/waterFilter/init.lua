@@ -237,8 +237,6 @@ WaterFilter.buttons = {
         callback = WaterFilter.collectWaterCallback
     }
 }
---[[]]
---[[]]
 --[[
     Bushcrafted water filters are controlled through Crafting Framework.
     This handles water filters added via ESP (e.g. as a resource from OAAB).
